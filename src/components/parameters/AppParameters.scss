@@ -1,6 +1,8 @@
 #electric-field-parameters {
-  position: absolute;
-  bottom: 0;
+  min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
+  min-height: var(--sidebar-height);
+  max-height: var(--sidebar-height);
   background-color: #fff;
   outline: 1px solid black;
 

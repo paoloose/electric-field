@@ -1,0 +1,20 @@
+:root {
+  --sidebar-width: 300px;
+  --sidebar-height: 100%;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  #app {
+    --sidebar-width: 100%;
+    --sidebar-height: 200px;
+    grid-template-columns: 1fr;
+    grid-template-rows: calc(100% - var(--sidebar-height)) var(--sidebar-height);
+  }
+}
