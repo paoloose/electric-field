@@ -119,7 +119,7 @@ export function animationFrameForces(graph: ElectricFieldProps, dt: number) {
   graph.pointCharges = newPointCharges;
 }
 
-function drawLine(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps, from: Vector, to: Vector) {
+function drawLine(ctx: CanvasRenderingContext2D, _graph: ElectricFieldProps, from: Vector, to: Vector) {
   ctx.beginPath();
   ctx.moveTo(from.x, from.y);
   ctx.lineTo(to.x, to.y);

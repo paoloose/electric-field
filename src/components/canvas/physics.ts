@@ -19,7 +19,6 @@ const unitVector = (v: Point): Vector => {
 };
 
 const COULOMB_CONSTANT = 8.9875517923 * Math.pow(10, 9);
-const VACUUM_PERMITTIVITY = 0.000000000008854187812813;
 
 function electricForce(q1: number, q2: number, r: number) {
   return COULOMB_CONSTANT * (q1 * q2) / (r * r);
