@@ -1,16 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { getCanvasContext, getMouseCoords, redraw } from './utils';
+import { doubleClickHandler } from '@/components/canvas/handlers/doubleClickHandler';
+import { pointerMoveHandler } from '@/components/canvas/handlers/pointerMoveHandler';
+import { rightClickHandler } from '@/components/canvas/handlers/rightClickHandler';
+import { getCanvasContext, getMouseCoords, redraw } from './logic';
 import './ElectricFieldCanvas.scss';
 
-function ElectricFieldCanvas() {
+function ElectricFieldCanvas({ initialGraph }: { initialGraph: ElectricFieldProps }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const graph: ElectricFieldProps = useRef({
-    isDragging: false,
-    lastMouseCoords: { mouse_x: 0, mouse_y: 0 },
-    viewport: { x: 0, y: 0 },
-    zoom: 1,
-  }).current;
+  const graph: ElectricFieldProps = useRef(initialGraph).current;
 
   // Set canvas real width and height
   useEffect(() => {
@@ -71,41 +69,27 @@ function ElectricFieldCanvas() {
     return () => canvas.removeEventListener('wheel', handleZoom);
   }, []);
 
-  const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
+  const handlePointerDown = (_e: React.PointerEvent<HTMLCanvasElement>) => {
     const ctx = getCanvasContext(canvasRef.current);
     if (!ctx) return;
 
-    // const { mouse_x, mouse_y } = getMouseCoords(e, ctx.canvas);
     graph.isDragging = true;
   };
 
-  const handlePointerMove = (e: PointerEvent) => {
-    const ctx = getCanvasContext(canvasRef.current);
-    if (!ctx) return;
+  const lastRightClick = useRef(0);
+  const handleRightClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    rightClickHandler(e, canvasRef.current, graph, lastRightClick);
+  }
 
-    if (graph.isDragging) {
-      // Get the canvas rect
-      const { mouse_x, mouse_y } = getMouseCoords(e, ctx.canvas);
-      // get mouse position difference
-      const mouse_dx = mouse_x - graph.lastMouseCoords.mouse_x;
-      const mouse_dy = mouse_y - graph.lastMouseCoords.mouse_y;
-
-      // This is the amount of units that we have to move our viewport
-      const dx = mouse_dx / graph.zoom;
-      const dy = mouse_dy / graph.zoom;
-
-      console.log("moving", {dx, dy})
-
-      graph.viewport.x -= dx;
-      graph.viewport.y += dy;
-
-      redraw(ctx, graph);
-    }
-
-    graph.lastMouseCoords = getMouseCoords(e, ctx.canvas);
+  const handleDoubleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    doubleClickHandler(e, canvasRef.current, graph);
   };
 
-  const handlePointerUp = () => {
+  const handlePointerMove = (e: PointerEvent) => {
+    pointerMoveHandler(e, canvasRef.current, graph);
+  };
+
+  const handlePointerUp = (_e: PointerEvent) => {
     graph.isDragging = false;
   };
 
@@ -126,6 +110,8 @@ function ElectricFieldCanvas() {
       <canvas
         ref={canvasRef}
         onPointerDown={handlePointerDown}
+        onContextMenu={handleRightClick}
+        onDoubleClick={handleDoubleClick}
       />
     </section>
   );

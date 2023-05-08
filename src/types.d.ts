@@ -5,9 +5,20 @@ interface ElectricFieldParams {
   zoom: number;
 }
 
+interface Point {
+  x: number;
+  y: number;
+}
+
 interface MouseCoord {
   mouse_x: number;
   mouse_y: number;
+}
+
+interface PointCharge {
+  x: number;
+  y: number;
+  q: number;
 }
 
 interface ElectricFieldProps {
@@ -15,4 +26,5 @@ interface ElectricFieldProps {
   lastMouseCoords: { mouse_x: number; mouse_y: number };
   viewport: { x: number; y: number };
   zoom: number;
+  pointCharges: PointCharge[];
 };
