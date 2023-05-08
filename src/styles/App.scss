@@ -6,6 +6,7 @@
 #app {
   display: grid;
   grid-template-columns: 1fr var(--sidebar-width);
+  grid-template-rows: 100%;
   width: 100%;
   height: 100%;
 }
