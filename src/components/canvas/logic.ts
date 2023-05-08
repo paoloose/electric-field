@@ -1,22 +1,22 @@
 import { graphPointToScreenCoord } from "./utils";
 
-export function drawBackground(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps) {
+export function drawBackground(ctx: CanvasRenderingContext2D, _graph: ElectricFieldProps) {
   const { width, height } = ctx.canvas;
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, width, height);
 }
 
-export function drawGrid(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps) {
+export function drawGrid(ctx: CanvasRenderingContext2D, _graph: ElectricFieldProps) {
   const { width, height } = ctx.canvas;
   ctx.strokeStyle = '#555555';
   ctx.lineWidth = 1;
 
   ctx.beginPath();
-  for (let x = 0; x < width; x += 10) {
+  for (let x = 0; x < width; x += 10 * _graph.zoom) {
     ctx.moveTo(x, 0);
     ctx.lineTo(x, height);
   }
-  for (let y = 0; y < height; y += 10) {
+  for (let y = 0; y < height; y += 10 * _graph.zoom) {
     ctx.moveTo(0, y);
     ctx.lineTo(width, y);
   }
@@ -26,7 +26,7 @@ export function drawGrid(ctx: CanvasRenderingContext2D, graph: ElectricFieldProp
 export function drawAxis(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps) {
   const { width, height } = ctx.canvas;
   ctx.lineWidth = 1.5;
-  ctx.strokeStyle = '#aaaaaa';
+  ctx.strokeStyle = '#ffffff';
   ctx.fillStyle = '#aaaaaa';
   ctx.font = '14px monospace';
 
@@ -81,6 +81,20 @@ export function drawPointCharge(ctx: CanvasRenderingContext2D, graph: ElectricFi
   ctx.stroke();
 }
 
+const COULOMB_CONSTANT = 8.9875517923 * Math.pow(10, 9);
+const VACUUM_PERMITTIVITY = 0.000000000008854187812813;
+
+void(COULOMB_CONSTANT);
+void(VACUUM_PERMITTIVITY);
+
+export function drawElectricField(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps) {
+  // const arrowsHorizontal = graph.viewport.x / 10;
+  // const arrowsVertical = graph.viewport.y / 10;
+
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 1;
+}
+
 export function redraw(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps) {
   const { width, height } = ctx.canvas;
   ctx.clearRect(0, 0, width, height);
@@ -92,6 +106,9 @@ export function redraw(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps)
   graph.pointCharges.forEach((pointCharge) => {
     drawPointCharge(ctx, graph, pointCharge);
   });
+
+  drawElectricField(ctx, graph);
+  // drawLines(ctx);
 }
 
 export function getMouseCoords(event: React.PointerEvent<HTMLCanvasElement> | PointerEvent | WheelEvent, canvas: HTMLCanvasElement): MouseCoord {

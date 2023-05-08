@@ -10,10 +10,7 @@ function App() {
     lastMouseCoords: { mouse_x: 0, mouse_y: 0 },
     viewport: { x: 0, y: 0 },
     zoom: 1,
-    pointCharges: [
-      { x: 100, y: 100, q: 1 },
-      { x: -100, y: 0, q: -1 },
-    ],
+    pointCharges: [],
   }
 
   return (
