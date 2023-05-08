@@ -1,7 +1,7 @@
 // (mouse_x, mouse_y): means a coordinate on the canvas (in pixels)
 // (x, y): means a cartesian coordinate on the graph
 
-interface ElectricFieldParams {
+interface ElectricFieldReactiveProps {
   zoom: number;
 }
 

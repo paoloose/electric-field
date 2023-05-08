@@ -1,8 +1,8 @@
 import { createContext, useMemo, useState } from 'react';
 
 type ElectricFieldParamsContext = {
-  parameters: ElectricFieldParams;
-  setParameters: React.Dispatch<React.SetStateAction<ElectricFieldParams>>;
+  parameters: ElectricFieldReactiveProps;
+  setParameters: React.Dispatch<React.SetStateAction<ElectricFieldReactiveProps>>;
 };
 
 const initialContext: ElectricFieldParamsContext = {
@@ -15,7 +15,7 @@ const initialContext: ElectricFieldParamsContext = {
 const AppParametersContext = createContext<ElectricFieldParamsContext>(initialContext);
 
 function CanvasContextProvider({ children }: { children: React.ReactNode }) {
-  const [parameters, setParameters] = useState<ElectricFieldParams>(initialContext.parameters);
+  const [parameters, setParameters] = useState<ElectricFieldReactiveProps>(initialContext.parameters);
 
   return (
     <AppParametersContext.Provider value={
