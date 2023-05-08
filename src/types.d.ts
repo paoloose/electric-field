@@ -18,7 +18,8 @@ interface MouseCoord {
 interface PointCharge {
   x: number;
   y: number;
-  q: number;
+  charge: number;
+  velocity: Vector;
 }
 
 interface ElectricFieldProps {

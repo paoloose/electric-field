@@ -18,7 +18,8 @@ export function rightClickHandler(e: React.MouseEvent<HTMLCanvasElement>, canvas
 
   graph.pointCharges.push({
     ...screenCoordToGraphPoint(graph, { mouse_x: e.clientX, mouse_y: e.clientY }),
-    q: -1,
+    charge: -1,
+    velocity: { x: 0, y: 0 },
   });
 
   redraw(ctx, graph);

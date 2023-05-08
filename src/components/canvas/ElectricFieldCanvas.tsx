@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { doubleClickHandler } from '@/components/canvas/handlers/doubleClickHandler';
 import { pointerMoveHandler } from '@/components/canvas/handlers/pointerMoveHandler';
 import { rightClickHandler } from '@/components/canvas/handlers/rightClickHandler';
-import { getCanvasContext, getMouseCoords, redraw } from './logic';
+import { animationFrameForces, getCanvasContext, getMouseCoords, redraw } from './logic';
 import './ElectricFieldCanvas.scss';
 
 function ElectricFieldCanvas({ initialGraph }: { initialGraph: ElectricFieldProps }) {
@@ -103,6 +103,24 @@ function ElectricFieldCanvas({ initialGraph }: { initialGraph: ElectricFieldProp
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
     }
+  }, []);
+
+  // Animation frame
+  useEffect(() => {
+    const ctx = getCanvasContext(canvasRef.current);
+    if (!ctx) return;
+
+    const animate = (dt: number) => {
+      redraw(ctx, graph);
+      animationFrameForces(graph, dt);
+      // requestAnimationFrame(animate);
+    };
+
+    const id = setInterval(() => {
+      animate(1000 / 60);
+    }, 1000 / 600);
+
+    return () => clearInterval(id);
   }, []);
 
   return (
