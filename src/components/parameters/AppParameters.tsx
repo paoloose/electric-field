@@ -7,14 +7,23 @@ function CanvasParameters() {
   return (
     <section id="electric-field-parameters">
       <div>
-        <h2>Canvas Parameters</h2>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={parameter}
-          onChange={(e) => setParameter(Number(e.target.value))}
-        />
+        <h2>Campo eléctrico</h2>
+        <form>
+          <label htmlFor="canvas-width">
+            <span>Size</span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={parameter}
+              onChange={(e) => setParameter(Number(e.target.value))}
+            />
+          </label>
+          <label htmlFor="canvas-width">
+            <span>Auto</span>
+            <input type="checkbox" />
+          </label>
+        </form>
       </div>
     </section>
   );

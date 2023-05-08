@@ -1,24 +1,30 @@
-import { createContext, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 
-type AppParameters = {
-  gridSize: number;
+type ElectricFieldParamsContext = {
+  parameters: ElectricFieldParams;
+  setParameters: React.Dispatch<React.SetStateAction<ElectricFieldParams>>;
 };
 
-const AppParametersContext = createContext<AppParameters>({
-  gridSize: 0,
-});
+const initialContext: ElectricFieldParamsContext = {
+  parameters: {
+    zoom: 1,
+  },
+  setParameters: () => {},
+};
+
+const AppParametersContext = createContext<ElectricFieldParamsContext>(initialContext);
 
 function CanvasContextProvider({ children }: { children: React.ReactNode }) {
-  const [parameters, setParameters] = useState<AppParameters>({
-    gridSize: 0,
-  });
+  const [parameters, setParameters] = useState<ElectricFieldParams>(initialContext.parameters);
 
   return (
-    <AppParametersContext.Provider value={parameters}>
+    <AppParametersContext.Provider value={
+      useMemo(() => ({ parameters, setParameters }), [parameters])
+    }
+    >
       {children}
     </AppParametersContext.Provider>
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export { AppParametersContext as appParametersContext, CanvasContextProvider };
+export { AppParametersContext, CanvasContextProvider };
