@@ -1,6 +1,6 @@
 import ElectricFieldCanvas from '@/components/canvas/ElectricFieldCanvas';
 import AppParameters from '@/components/parameters/AppParameters';
-import { CanvasContextProvider } from '@/context/AppParametersContext';
+import { CanvasContextProvider, initialContext } from '@/context/AppParametersContext';
 import '@/styles/App.scss';
 
 function App() {
@@ -9,11 +9,9 @@ function App() {
     isDragging: false,
     lastMouseCoords: { screen_x: 0, screen_y: 0 },
     view: { x: 0, y: 0 },
-    zoom: 1,
+    zoom: 1e6,
     pointCharges: [],
-    params: {
-      showGrid: false,
-    },
+    params: initialContext.parameters,
   }
 
   return (

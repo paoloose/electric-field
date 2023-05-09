@@ -5,10 +5,11 @@ type ElectricFieldParamsContext = {
   setParameters: React.Dispatch<React.SetStateAction<ElectricFieldReactiveParams>>;
 };
 
-const initialContext: ElectricFieldParamsContext = {
+export const initialContext: ElectricFieldParamsContext = {
   parameters: {
     showGrid: false,
-    movablePointCharges: false
+    movablePointCharges: true,
+    showElectricField: true,
   },
   setParameters: () => {},
 };

@@ -1,9 +1,20 @@
 // (screen_x, screen_y): means a coordinate on the canvas (in pixels)
 // (x, y): means a cartesian coordinate on the graph
 
+interface Vector {
+  x: number;
+  y: number;
+
+  constructor(x: number, y: number);
+  norm(): number;
+  unit(): Vector;
+  scaled(scalar: number): Vector;
+}
+
 interface ElectricFieldReactiveParams {
   showGrid: boolean;
   movablePointCharges: boolean;
+  showElectricField: boolean;
 }
 
 interface Point {
@@ -21,6 +32,7 @@ interface PointCharge {
   y: number;
   charge: number;
   velocity: Vector;
+  acceleration: Vector;
 }
 
 interface ElectricFieldGraph {

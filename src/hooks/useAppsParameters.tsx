@@ -6,11 +6,14 @@ export function useAppsParameters() {
 
   return {
     parameters,
-    toggleShorGrid: () => setParameters({
+    toggleShowGrid: () => setParameters({
       ...parameters, showGrid: !parameters.showGrid
     }),
     toggleMovableCharges: () => setParameters({
       ...parameters, movablePointCharges: !parameters.movablePointCharges
+    }),
+    toggleShowElectricField: () => setParameters({
+      ...parameters, showElectricField: !parameters.showElectricField
     }),
   };
 }

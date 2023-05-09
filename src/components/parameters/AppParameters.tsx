@@ -2,7 +2,12 @@ import { useAppsParameters } from '@/hooks/useAppsParameters';
 import './AppParameters.scss';
 
 function CanvasParameters() {
-  const { parameters, toggleShorGrid, toggleMovableCharges } = useAppsParameters();
+  const {
+    parameters,
+    toggleShowGrid,
+    toggleMovableCharges,
+    toggleShowElectricField
+  } = useAppsParameters();
 
   return (
     <section id="electric-field-parameters">
@@ -14,7 +19,7 @@ function CanvasParameters() {
               type="checkbox"
               id="show-grid"
               checked={parameters.showGrid}
-              onChange={toggleShorGrid}
+              onChange={toggleShowGrid}
             />
             Show grid
           </label>
@@ -26,6 +31,15 @@ function CanvasParameters() {
               onChange={toggleMovableCharges}
             />
             Movable
+          </label>
+          <label htmlFor="show-electric-field">
+            <input
+              type="checkbox"
+              id="show-electric-field"
+              checked={parameters.showElectricField}
+              onChange={toggleShowElectricField}
+            />
+            Show electric field
           </label>
         </form>
       </div>

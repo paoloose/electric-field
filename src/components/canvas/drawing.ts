@@ -135,5 +135,7 @@ export function redraw(ctx: CanvasRenderingContext2D, graph: ElectricFieldGraph)
     drawPointCharge(ctx, graph, pointCharge);
   });
 
-  drawElectricField(ctx, graph);
+  if (graph.params.showElectricField) {
+    drawElectricField(ctx, graph);
+  }
 }
