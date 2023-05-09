@@ -1,4 +1,4 @@
-const norm = (v: Point) => Math.sqrt(v.x * v.x + v.y * v.y);
+const COULOMB_CONSTANT = 8.9875517923 * Math.pow(10, 9);
 
 export class Vector {
   x: number;
@@ -8,85 +8,54 @@ export class Vector {
     this.x = x;
     this.y = y;
   }
-}
 
-const unitVector = (v: Point): Vector => {
-  const length = norm(v);
-  return {
-    x: v.x / length,
-    y: v.y / length,
-  };
-};
+  norm() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
 
-const COULOMB_CONSTANT = 8.9875517923 * Math.pow(10, 9);
+  unit() {
+    const length = this.norm();
+    return new Vector(this.x / length, this.y / length);
+  }
 
-function electricForce(q1: number, q2: number, r: number) {
-  return COULOMB_CONSTANT * (q1 * q2) / (r * r);
+  scaled(scalar: number) {
+    return new Vector(this.x * scalar, this.y * scalar);
+  }
 }
 
 function electricField(q: number, r: number) {
   return COULOMB_CONSTANT * q / (r * r);
 }
 
-export function electricForceVector(charge1: PointCharge, charge2: PointCharge) {
-  const diff: Vector = {
-    x: (charge2.x - charge1.x),
-    y: (charge2.y - charge1.y),
-  };
-
-  const unit = unitVector(diff);
-  const distance = norm(diff);
-
-  const force = electricForce(charge1.charge, charge2.charge, distance);
-
-  return new Vector(unit.x * force, unit.y * force);
-}
-
 function sumAllVectors(vectors: Vector[]) {
-  const totalVector = vectors.reduce((acc, vector) => {
+  const sum = vectors.reduce((acc, vector) => {
     return {
       x: acc.x + vector.x,
       y: acc.y + vector.y,
     };
   }, { x: 0, y: 0 });
 
-  const unit = unitVector(totalVector);
-  const magnitude = norm(totalVector);
-
-  return new Vector(unit.x * magnitude, unit.y * magnitude);
+  return new Vector(sum.x, sum.y);
 }
 
-export function coulombTotalForce(p: PointCharge, pointCharges: PointCharge[]) {
-  const forces = pointCharges.map((pointCharge) => {
-    if (pointCharge === p) {
-      return new Vector(0, 0);
-    }
-    return electricForceVector(p, pointCharge);
-  });
+function electricFieldVector(pointCharge: PointCharge, point: Point) {
+  const diff = new Vector(
+    point.x - pointCharge.x,
+    point.y - pointCharge.y
+  );
 
-  const totalForce = sumAllVectors(forces);
+  const r = diff.norm();
+  const unit = diff.unit();
 
-  const unit = unitVector(totalForce);
-  const magnitude = norm(totalForce);
+  const E = electricField(pointCharge.charge, r);
 
-  return new Vector(unit.x * magnitude, unit.y * magnitude);
+  return new Vector(
+    E * unit.x,
+    E * unit.y
+  );
 }
 
-export function electricFieldVector(charge: PointCharge, point: Point) {
-  const diff: Vector = {
-    x: (point.x - charge.x),
-    y: (point.y - charge.y),
-  };
-
-  const unit = unitVector(diff);
-  const distance = norm(diff);
-
-  const magnitude = electricField(charge.charge, distance);
-
-  return new Vector(unit.x * magnitude, unit.y * magnitude);
-}
-
-export function electricFieldAtPoint(graph: ElectricFieldGraph, point: Point) {
+export function electricFieldAtPoint(graph: ElectricFieldGraph, point: Point): Vector {
   const { pointCharges } = graph;
 
   const electricFields: Vector[] = [];
@@ -95,15 +64,51 @@ export function electricFieldAtPoint(graph: ElectricFieldGraph, point: Point) {
     if (pointCharge.x === point.x && pointCharge.y === point.y) {
       continue;
     }
-    const electricField = electricFieldVector(pointCharge, point);
-    electricFields.push({
-      x: electricField.x / 10000,
-      y: electricField.y / 10000,
-    })
+    const field = electricFieldVector(pointCharge, point);
+    electricFields.push(
+      field.scaled(0.0000001)
+    );
     // electricFields.push(electricField);
   }
 
-  const totalElectricField = sumAllVectors(electricFields);
+  return sumAllVectors(electricFields);
+}
 
-  return totalElectricField;
+function getForceOnPointCharge(graph: ElectricFieldGraph, pointCharge: PointCharge): Vector {
+  const { x, y } = pointCharge;
+  const { x: E_x, y: E_y } = electricFieldAtPoint(graph, { x, y });
+
+  return new Vector(
+    E_x * Math.abs(pointCharge.charge),
+    E_y * Math.abs(pointCharge.charge)
+  );
+}
+
+function applyForceOnPointCharge(pointCharge: PointCharge, force: Vector, dt: number) {
+  const { x, y, charge } = pointCharge;
+  const { x: F_x, y: F_y } = force;
+
+  console.log({ force })
+
+  const new_x = x + ((F_x * dt) / charge);
+  const new_y = y + ((F_y * dt) / charge);
+
+  console.log({ new_x, new_y })
+
+  return { ...pointCharge, x: new_x, y: new_y };
+}
+
+export function applyForcesAnimation(graph: ElectricFieldGraph, dt: number) {
+  const { pointCharges } = graph;
+
+  if (pointCharges.length === 1) return;
+
+  // Calculate the net force on each point charge
+  const forces = pointCharges.map(pointCharge => getForceOnPointCharge(graph, pointCharge));
+
+  // Apply the force to each point charge
+  const newPointCharges = pointCharges.map((pointCharge, i) => applyForceOnPointCharge(pointCharge, forces[i], dt));
+
+  // Update the graph
+  graph.pointCharges = newPointCharges;
 }

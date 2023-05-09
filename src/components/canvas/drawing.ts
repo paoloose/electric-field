@@ -82,42 +82,6 @@ export function drawPointCharge(ctx: CanvasRenderingContext2D, graph: ElectricFi
   ctx.stroke();
 }
 
-function getForceOnPointCharge(graph: ElectricFieldGraph, pointCharge: PointCharge) {
-  const { x, y } = pointCharge;
-  const { x: E_x, y: E_y } = electricFieldAtPoint(graph, { x, y });
-
-  return { x: E_x * pointCharge.charge, y: E_y * pointCharge.charge };
-}
-
-function applyForceOnPointCharge(pointCharge: PointCharge, force: Vector, dt: number) {
-  const { x, y, charge } = pointCharge;
-  const { x: F_x, y: F_y } = force;
-
-  console.log({ force })
-
-  const new_x = x + ((F_x * dt) / charge);
-  const new_y = y + ((F_y * dt) / charge);
-
-  console.log({ new_x, new_y })
-
-  return { ...pointCharge, x: new_x, y: new_y };
-}
-
-export function animationFrameForces(graph: ElectricFieldGraph, dt: number) {
-  const { pointCharges } = graph;
-
-  if (pointCharges.length === 1) return;
-
-  // Calculamos la fuerza en cada punto
-  const forces = pointCharges.map(pointCharge => getForceOnPointCharge(graph, pointCharge));
-
-  // Aplicamos la fuerza a cada carga puntual
-  const newPointCharges = pointCharges.map((pointCharge, i) => applyForceOnPointCharge(pointCharge, forces[i], dt));
-
-  // Actualizamos el gráfico con las nuevas posiciones
-  graph.pointCharges = newPointCharges;
-}
-
 function drawLine(ctx: CanvasRenderingContext2D, _graph: ElectricFieldGraph, from: Vector, to: Vector) {
   ctx.beginPath();
   ctx.moveTo(from.x, from.y);
@@ -146,7 +110,9 @@ function drawElectricField(ctx: CanvasRenderingContext2D, graph: ElectricFieldGr
 
       // Dibujamos el vector
       ctx.strokeStyle = '#00ff00';
-      drawLine(ctx, graph, { x: mouse_x, y: mouse_y }, { x: E_mouse_x, y: E_mouse_y });
+      drawLine(
+        ctx, graph, { x: mouse_x, y: mouse_y } as Vector, { x: E_mouse_x, y: E_mouse_y } as Vector
+      );
     }
   }
 }
@@ -164,19 +130,4 @@ export function redraw(ctx: CanvasRenderingContext2D, graph: ElectricFieldGraph)
   });
 
   drawElectricField(ctx, graph);
-}
-
-export function getMouseCoords(event: React.PointerEvent<HTMLCanvasElement> | PointerEvent | WheelEvent, canvas: HTMLCanvasElement): MouseCoord {
-  const rect = canvas.getBoundingClientRect();
-  return {
-    mouse_x: event.clientX - rect.left,
-    mouse_y: event.clientY - rect.top,
-  };
-}
-
-export function getCanvasContext(canvas: HTMLCanvasElement | null): CanvasRenderingContext2D | null {
-  if (!canvas) return null;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return null;
-  return ctx;
 }

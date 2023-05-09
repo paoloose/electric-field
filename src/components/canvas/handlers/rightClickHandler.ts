@@ -1,4 +1,3 @@
-import { redraw } from "../logic";
 import { screenCoordToGraphPoint } from "../utils";
 
 const RIGHT_CLICK_DELAY = 500;
@@ -22,6 +21,5 @@ export function rightClickHandler(e: React.MouseEvent<HTMLCanvasElement>, canvas
     velocity: { x: 0, y: 0 },
   });
 
-  redraw(ctx, graph);
   lastRightClick.current = now - RIGHT_CLICK_DELAY_AFTER_DOUBLE_CLICK;
 }

@@ -1,4 +1,3 @@
-import { redraw } from "../logic";
 import { screenCoordToGraphPoint } from "../utils";
 
 export function doubleClickHandler (e: React.MouseEvent<HTMLCanvasElement>, canvas: HTMLCanvasElement | null, graph: ElectricFieldGraph) {
@@ -11,6 +10,4 @@ export function doubleClickHandler (e: React.MouseEvent<HTMLCanvasElement>, canv
     charge: 1,
     velocity: { x: 0, y: 0 },
   });
-
-  redraw(ctx, graph);
 };

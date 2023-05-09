@@ -1,4 +1,4 @@
-import { getMouseCoords, redraw } from "../logic";
+import { getMouseCoords } from "../utils";
 
 export function pointerMoveHandler(e: PointerEvent, canvas: HTMLCanvasElement | null, graph: ElectricFieldGraph) {
   const ctx = canvas?.getContext("2d");
@@ -17,8 +17,6 @@ export function pointerMoveHandler(e: PointerEvent, canvas: HTMLCanvasElement | 
 
     graph.view.x -= dx;
     graph.view.y += dy;
-
-    redraw(ctx, graph);
   }
 
   graph.lastMouseCoords = getMouseCoords(e, ctx.canvas);

@@ -11,3 +11,18 @@ export function screenCoordToGraphPoint(graph: ElectricFieldGraph, mouseCoord: M
     y: graph.view.y - mouseCoord.mouse_y / graph.zoom,
   }
 }
+
+export function getMouseCoords(event: React.PointerEvent<HTMLCanvasElement> | PointerEvent | WheelEvent, canvas: HTMLCanvasElement): MouseCoord {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    mouse_x: event.clientX - rect.left,
+    mouse_y: event.clientY - rect.top,
+  };
+}
+
+export function getCanvasContext2D(canvas: HTMLCanvasElement | null): CanvasRenderingContext2D | null {
+  if (!canvas) return null;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+  return ctx;
+}
