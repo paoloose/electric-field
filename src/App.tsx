@@ -5,18 +5,19 @@ import '@/styles/App.scss';
 
 function App() {
 
-  const initialGraph = {
+  const graph: ElectricFieldGraph = {
     isDragging: false,
     lastMouseCoords: { mouse_x: 0, mouse_y: 0 },
-    viewport: { x: 0, y: 0 },
+    view: { x: 0, y: 0 },
     zoom: 1,
+    showGrid: true,
     pointCharges: [],
   }
 
   return (
     <CanvasContextProvider>
       <main id="app">
-        <ElectricFieldCanvas initialGraph={initialGraph} />
+        <ElectricFieldCanvas graphState={graph} />
         <AppParameters />
       </main>
     </CanvasContextProvider>

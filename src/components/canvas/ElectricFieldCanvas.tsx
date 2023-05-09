@@ -5,10 +5,10 @@ import { rightClickHandler } from '@/components/canvas/handlers/rightClickHandle
 import { animationFrameForces, getCanvasContext, getMouseCoords, redraw } from './logic';
 import './ElectricFieldCanvas.scss';
 
-function ElectricFieldCanvas({ initialGraph }: { initialGraph: ElectricFieldProps }) {
+function ElectricFieldCanvas({ graphState }: { graphState: ElectricFieldGraph }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const graph: ElectricFieldProps = useRef(initialGraph).current;
+  const graph: ElectricFieldGraph = useRef(graphState).current;
 
   // Set canvas real width and height
   useEffect(() => {
@@ -22,8 +22,8 @@ function ElectricFieldCanvas({ initialGraph }: { initialGraph: ElectricFieldProp
 
       // We have that
       // x = width / zoom ; y = height / zoom
-      graph.viewport.x = - (width / graph.zoom) / 2;
-      graph.viewport.y = + (height / graph.zoom) / 2;
+      graph.view.x = - (width / graph.zoom) / 2;
+      graph.view.y = + (height / graph.zoom) / 2;
 
       redraw(ctx, graph);
     });
@@ -53,8 +53,8 @@ function ElectricFieldCanvas({ initialGraph }: { initialGraph: ElectricFieldProp
     const dy = mouse_y / graph.zoom - mouse_y / zoomBefore;
 
     // Move the viewport
-    graph.viewport.x -= dx;
-    graph.viewport.y += dy;
+    graph.view.x -= dx;
+    graph.view.y += dy;
 
     if (e.ctrlKey) e.preventDefault();
     redraw(ctx, graph);

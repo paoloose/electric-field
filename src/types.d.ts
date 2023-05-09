@@ -22,10 +22,11 @@ interface PointCharge {
   velocity: Vector;
 }
 
-interface ElectricFieldProps {
+interface ElectricFieldGraph {
   isDragging: boolean;
-  lastMouseCoords: { mouse_x: number; mouse_y: number };
-  viewport: { x: number; y: number };
+  lastMouseCoords: MouseCoord;
+  view: Point;
   zoom: number;
   pointCharges: PointCharge[];
+  showGrid: boolean;
 };

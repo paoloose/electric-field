@@ -1,13 +1,13 @@
 import { Vector, electricFieldAtPoint } from "./physics";
 import { graphPointToScreenCoord } from "./utils";
 
-export function drawBackground(ctx: CanvasRenderingContext2D, _graph: ElectricFieldProps) {
+export function drawBackground(ctx: CanvasRenderingContext2D, _graph: ElectricFieldGraph) {
   const { width, height } = ctx.canvas;
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, width, height);
 }
 
-export function drawGrid(ctx: CanvasRenderingContext2D, _graph: ElectricFieldProps) {
+export function drawGrid(ctx: CanvasRenderingContext2D, _graph: ElectricFieldGraph) {
   const { width, height } = ctx.canvas;
   ctx.strokeStyle = '#555555';
   ctx.lineWidth = 1;
@@ -24,7 +24,7 @@ export function drawGrid(ctx: CanvasRenderingContext2D, _graph: ElectricFieldPro
   ctx.stroke();
 }
 
-export function drawAxis(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps) {
+export function drawAxis(ctx: CanvasRenderingContext2D, graph: ElectricFieldGraph) {
   const { width, height } = ctx.canvas;
   ctx.lineWidth = 1.5;
   ctx.strokeStyle = '#ffffff';
@@ -40,10 +40,10 @@ export function drawAxis(ctx: CanvasRenderingContext2D, graph: ElectricFieldProp
   // ctx.fillText(`canv: (${width}, ${height})`, 10, 75);
   // ctx.fillText(`zoom: ${graph.zoom}`, 10, 100);
 
-  const screen_x = graph.viewport.x * graph.zoom;
-  const screen_y = graph.viewport.y * graph.zoom;
-  const viewport_x = graph.viewport.x;
-  const viewport_y = graph.viewport.y;
+  const screen_x = graph.view.x * graph.zoom;
+  const screen_y = graph.view.y * graph.zoom;
+  const viewport_x = graph.view.x;
+  const viewport_y = graph.view.y;
 
   ctx.beginPath();
   // Does the graph contain the Y axis?
@@ -68,7 +68,7 @@ export function drawAxis(ctx: CanvasRenderingContext2D, graph: ElectricFieldProp
 }
 const RADII = 9;
 
-export function drawPointCharge(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps, pointCharge: PointCharge) {
+export function drawPointCharge(ctx: CanvasRenderingContext2D, graph: ElectricFieldGraph, pointCharge: PointCharge) {
   const { x, y, charge: q } = pointCharge;
 
   const { mouse_x, mouse_y } = graphPointToScreenCoord(graph, { x, y });
@@ -82,9 +82,8 @@ export function drawPointCharge(ctx: CanvasRenderingContext2D, graph: ElectricFi
   ctx.stroke();
 }
 
-function getForceOnPointCharge(graph: ElectricFieldProps, pointCharge: PointCharge) {
+function getForceOnPointCharge(graph: ElectricFieldGraph, pointCharge: PointCharge) {
   const { x, y } = pointCharge;
-  // console.log("pointCharge:", pointCharge)
   const { x: E_x, y: E_y } = electricFieldAtPoint(graph, { x, y });
 
   return { x: E_x * pointCharge.charge, y: E_y * pointCharge.charge };
@@ -104,29 +103,29 @@ function applyForceOnPointCharge(pointCharge: PointCharge, force: Vector, dt: nu
   return { ...pointCharge, x: new_x, y: new_y };
 }
 
-export function animationFrameForces(graph: ElectricFieldProps, dt: number) {
+export function animationFrameForces(graph: ElectricFieldGraph, dt: number) {
   const { pointCharges } = graph;
 
   if (pointCharges.length === 1) return;
 
-  // Calculate the forces on each point charge
+  // Calculamos la fuerza en cada punto
   const forces = pointCharges.map(pointCharge => getForceOnPointCharge(graph, pointCharge));
 
-  // Apply the forces to each point charge
+  // Aplicamos la fuerza a cada carga puntual
   const newPointCharges = pointCharges.map((pointCharge, i) => applyForceOnPointCharge(pointCharge, forces[i], dt));
 
-  // Update the graph
+  // Actualizamos el gráfico con las nuevas posiciones
   graph.pointCharges = newPointCharges;
 }
 
-function drawLine(ctx: CanvasRenderingContext2D, _graph: ElectricFieldProps, from: Vector, to: Vector) {
+function drawLine(ctx: CanvasRenderingContext2D, _graph: ElectricFieldGraph, from: Vector, to: Vector) {
   ctx.beginPath();
   ctx.moveTo(from.x, from.y);
   ctx.lineTo(to.x, to.y);
   ctx.stroke();
 }
 
-function drawElectricField(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps) {
+function drawElectricField(ctx: CanvasRenderingContext2D, graph: ElectricFieldGraph) {
   const arrowsHorizontal = 50;
   const arrowsVertical   = 50;
   const { width, height } = ctx.canvas;
@@ -152,7 +151,7 @@ function drawElectricField(ctx: CanvasRenderingContext2D, graph: ElectricFieldPr
   }
 }
 
-export function redraw(ctx: CanvasRenderingContext2D, graph: ElectricFieldProps) {
+export function redraw(ctx: CanvasRenderingContext2D, graph: ElectricFieldGraph) {
   const { width, height } = ctx.canvas;
   ctx.clearRect(0, 0, width, height);
 

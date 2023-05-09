@@ -86,7 +86,7 @@ export function electricFieldVector(charge: PointCharge, point: Point) {
   return new Vector(unit.x * magnitude, unit.y * magnitude);
 }
 
-export function electricFieldAtPoint(graph: ElectricFieldProps, point: Point) {
+export function electricFieldAtPoint(graph: ElectricFieldGraph, point: Point) {
   const { pointCharges } = graph;
 
   const electricFields: Vector[] = [];

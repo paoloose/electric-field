@@ -4,7 +4,7 @@ import { screenCoordToGraphPoint } from "../utils";
 const RIGHT_CLICK_DELAY = 500;
 const RIGHT_CLICK_DELAY_AFTER_DOUBLE_CLICK = 1000;
 
-export function rightClickHandler(e: React.MouseEvent<HTMLCanvasElement>, canvas: HTMLCanvasElement | null, graph: ElectricFieldProps, lastRightClick: React.MutableRefObject<number>) {
+export function rightClickHandler(e: React.MouseEvent<HTMLCanvasElement>, canvas: HTMLCanvasElement | null, graph: ElectricFieldGraph, lastRightClick: React.MutableRefObject<number>) {
   const ctx = canvas?.getContext("2d");
   if (!ctx) return;
 

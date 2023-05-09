@@ -1,7 +1,7 @@
 import { redraw } from "../logic";
 import { screenCoordToGraphPoint } from "../utils";
 
-export function doubleClickHandler (e: React.MouseEvent<HTMLCanvasElement>, canvas: HTMLCanvasElement | null, graph: ElectricFieldProps) {
+export function doubleClickHandler (e: React.MouseEvent<HTMLCanvasElement>, canvas: HTMLCanvasElement | null, graph: ElectricFieldGraph) {
   const ctx = canvas?.getContext("2d");
   if (!ctx) return;
   if (e.detail !== 2) return;
