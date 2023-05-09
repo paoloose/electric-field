@@ -1,4 +1,5 @@
-const COULOMB_CONSTANT = 8.9875517923 * Math.pow(10, 9);
+export const COULOMB_CONSTANT = 8.9875517923e9;
+export const ELECTRON_CHARGE = -1.602176634e-19;
 
 export class Vector {
   x: number;
@@ -85,12 +86,10 @@ function applyForceOnPointCharge(pointCharge: PointCharge, force: Vector, dt: nu
   const { x, y, charge } = pointCharge;
   const { x: F_x, y: F_y } = force;
 
-  console.log({ force })
-
   const new_x = x + ((F_x * dt) / charge);
   const new_y = y + ((F_y * dt) / charge);
 
-  console.log({ new_x, new_y })
+  console.log({ new_x, new_y });
 
   return { ...pointCharge, x: new_x, y: new_y };
 }
@@ -105,7 +104,7 @@ export function applyForcesAnimation(graph: ElectricFieldGraph, dt: number) {
 
   // Apply the force to each point charge
   const newPointCharges = pointCharges.map((pointCharge, i) => (
-    applyForceOnPointCharge(pointCharge, forces[i], dt * 0.0000001)
+    applyForceOnPointCharge(pointCharge, forces[i], dt)
   ));
 
   // Update the graph

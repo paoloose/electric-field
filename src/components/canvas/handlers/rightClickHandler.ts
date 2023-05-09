@@ -1,3 +1,4 @@
+import { ELECTRON_CHARGE } from "../physics";
 import { screenCoordToGraphPoint } from "../utils";
 
 const RIGHT_CLICK_DELAY = 500;
@@ -17,7 +18,7 @@ export function rightClickHandler(e: React.MouseEvent<HTMLCanvasElement>, canvas
 
   graph.pointCharges.push({
     ...screenCoordToGraphPoint(graph, { screen_x: e.clientX, screen_y: e.clientY }),
-    charge: -1,
+    charge: ELECTRON_CHARGE,
     velocity: { x: 0, y: 0 },
   });
 

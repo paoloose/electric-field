@@ -21,8 +21,6 @@ export const zoomHandler = (e: WheelEvent, ctx: CanvasRenderingContext2D, graph:
     }
   }
 
-  console.log(graph.zoom);
-
   // Zoom relative to the mouse position
   const { screen_x: mouse_x, screen_y: mouse_y } = getMouseCoords(e, ctx.canvas);
 
