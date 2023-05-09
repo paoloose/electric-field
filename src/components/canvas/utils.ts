@@ -1,22 +1,22 @@
 export function graphPointToScreenCoord(graph: ElectricFieldGraph, point: Point): MouseCoord {
   return {
-    mouse_x: + (point.x - graph.view.x) * graph.zoom,
-    mouse_y: - (point.y - graph.view.y) * graph.zoom,
+    screen_x: + (point.x - graph.view.x) * graph.zoom,
+    screen_y: - (point.y - graph.view.y) * graph.zoom,
   }
 }
 
 export function screenCoordToGraphPoint(graph: ElectricFieldGraph, mouseCoord: MouseCoord): Point {
   return {
-    x: graph.view.x + mouseCoord.mouse_x / graph.zoom,
-    y: graph.view.y - mouseCoord.mouse_y / graph.zoom,
+    x: graph.view.x + mouseCoord.screen_x / graph.zoom,
+    y: graph.view.y - mouseCoord.screen_y / graph.zoom,
   }
 }
 
 export function getMouseCoords(event: React.PointerEvent<HTMLCanvasElement> | PointerEvent | WheelEvent, canvas: HTMLCanvasElement): MouseCoord {
   const rect = canvas.getBoundingClientRect();
   return {
-    mouse_x: event.clientX - rect.left,
-    mouse_y: event.clientY - rect.top,
+    screen_x: event.clientX - rect.left,
+    screen_y: event.clientY - rect.top,
   };
 }
 

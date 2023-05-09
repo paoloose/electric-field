@@ -1,16 +1,30 @@
 import { getMouseCoords } from "../utils";
 
+const ZOOM_ADJUSTMENT = 0.01;
+
 export const zoomHandler = (e: WheelEvent, ctx: CanvasRenderingContext2D, graph: ElectricFieldGraph) => {
   const zoomIn = e.deltaY < 0;
   const zoomOut = e.deltaY > 0;
 
   const zoomBefore = graph.zoom;
 
-  if (zoomIn)  graph.zoom *= 1.1;
-  if (zoomOut) graph.zoom /= 1.1;
+  if (zoomIn)  graph.zoom += ZOOM_ADJUSTMENT;
+  if (zoomOut) {
+    if (graph.zoom < 0.5) {
+      graph.zoom -= ZOOM_ADJUSTMENT * 0.1;
+    }
+    else if (graph.zoom < 0.1) {
+      graph.zoom = 0.1;
+    }
+    else {
+      graph.zoom -= ZOOM_ADJUSTMENT;
+    }
+  }
+
+  console.log(graph.zoom);
 
   // Zoom relative to the mouse position
-  const { mouse_x, mouse_y } = getMouseCoords(e, ctx.canvas);
+  const { screen_x: mouse_x, screen_y: mouse_y } = getMouseCoords(e, ctx.canvas);
 
   // How much will the viewport move?
   const dx = mouse_x / graph.zoom - mouse_x / zoomBefore;

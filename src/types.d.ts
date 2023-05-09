@@ -1,8 +1,9 @@
-// (mouse_x, mouse_y): means a coordinate on the canvas (in pixels)
+// (screen_x, screen_y): means a coordinate on the canvas (in pixels)
 // (x, y): means a cartesian coordinate on the graph
 
-interface ElectricFieldReactiveProps {
-  zoom: number;
+interface ElectricFieldReactiveParams {
+  showGrid: boolean;
+  movablePointCharges: boolean;
 }
 
 interface Point {
@@ -11,8 +12,8 @@ interface Point {
 }
 
 interface MouseCoord {
-  mouse_x: number;
-  mouse_y: number;
+  screen_x: number;
+  screen_y: number;
 }
 
 interface PointCharge {
@@ -28,5 +29,5 @@ interface ElectricFieldGraph {
   view: Point;
   zoom: number;
   pointCharges: PointCharge[];
-  showGrid: boolean;
+  params: ElectricFieldReactiveParams;
 };

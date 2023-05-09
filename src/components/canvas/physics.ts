@@ -65,10 +65,7 @@ export function electricFieldAtPoint(graph: ElectricFieldGraph, point: Point): V
       continue;
     }
     const field = electricFieldVector(pointCharge, point);
-    electricFields.push(
-      field.scaled(0.0000001)
-    );
-    // electricFields.push(electricField);
+    electricFields.push(field);
   }
 
   return sumAllVectors(electricFields);
@@ -107,7 +104,9 @@ export function applyForcesAnimation(graph: ElectricFieldGraph, dt: number) {
   const forces = pointCharges.map(pointCharge => getForceOnPointCharge(graph, pointCharge));
 
   // Apply the force to each point charge
-  const newPointCharges = pointCharges.map((pointCharge, i) => applyForceOnPointCharge(pointCharge, forces[i], dt));
+  const newPointCharges = pointCharges.map((pointCharge, i) => (
+    applyForceOnPointCharge(pointCharge, forces[i], dt * 0.0000001)
+  ));
 
   // Update the graph
   graph.pointCharges = newPointCharges;

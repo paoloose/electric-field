@@ -6,10 +6,10 @@ export function pointerMoveHandler(e: PointerEvent, canvas: HTMLCanvasElement | 
 
   if (graph.isDragging) {
     // Get the canvas rect
-    const { mouse_x, mouse_y } = getMouseCoords(e, ctx.canvas);
+    const { screen_x: mouse_x, screen_y: mouse_y } = getMouseCoords(e, ctx.canvas);
     // get mouse position difference
-    const mouse_dx = mouse_x - graph.lastMouseCoords.mouse_x;
-    const mouse_dy = mouse_y - graph.lastMouseCoords.mouse_y;
+    const mouse_dx = mouse_x - graph.lastMouseCoords.screen_x;
+    const mouse_dy = mouse_y - graph.lastMouseCoords.screen_y;
 
     // This is the amount of units that we have to move our viewport
     const dx = mouse_dx / graph.zoom;

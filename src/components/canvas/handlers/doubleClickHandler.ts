@@ -6,7 +6,7 @@ export function doubleClickHandler (e: React.MouseEvent<HTMLCanvasElement>, canv
   if (e.detail !== 2) return;
 
   graph.pointCharges.push({
-    ...screenCoordToGraphPoint(graph, { mouse_x: e.clientX, mouse_y: e.clientY }),
+    ...screenCoordToGraphPoint(graph, { screen_x: e.clientX, screen_y: e.clientY }),
     charge: 1,
     velocity: { x: 0, y: 0 },
   });

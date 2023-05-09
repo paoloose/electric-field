@@ -6,6 +6,11 @@ export function useAppsParameters() {
 
   return {
     parameters,
-    setZoom: (zoom: number) => setParameters((prev) => ({ ...prev, zoom })),
+    toggleShorGrid: () => setParameters({
+      ...parameters, showGrid: !parameters.showGrid
+    }),
+    toggleMovableCharges: () => setParameters({
+      ...parameters, movablePointCharges: !parameters.movablePointCharges
+    }),
   };
 }

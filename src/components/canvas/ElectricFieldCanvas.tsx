@@ -2,16 +2,22 @@ import { useEffect, useRef } from 'react';
 import { doubleClickHandler } from '@/components/canvas/handlers/doubleClickHandler';
 import { pointerMoveHandler } from '@/components/canvas/handlers/pointerMoveHandler';
 import { rightClickHandler } from '@/components/canvas/handlers/rightClickHandler';
-import { redraw } from './drawing';
+import { useAppsParameters } from '@/hooks/useAppsParameters';
 import { zoomHandler } from './handlers/zoomHandler';
-import './ElectricFieldCanvas.scss';
-import { getCanvasContext2D } from './utils';
 import { applyForcesAnimation } from './physics';
+import { getCanvasContext2D } from './utils';
+import { redraw } from './drawing';
+import './ElectricFieldCanvas.scss';
 
 function ElectricFieldCanvas({ graphState }: { graphState: ElectricFieldGraph }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const graph: ElectricFieldGraph = useRef(graphState).current;
+  const { parameters } = useAppsParameters();
+
+  useEffect(() => {
+    graph.params = parameters;
+  }, [parameters]);
 
   // Set canvas real width and height
   useEffect(() => {
@@ -87,7 +93,9 @@ function ElectricFieldCanvas({ graphState }: { graphState: ElectricFieldGraph })
     if (!ctx) return;
 
     const animate = (dt: DOMHighResTimeStamp) => {
-      applyForcesAnimation(graph, dt);
+      if (graph.params.movablePointCharges) {
+        applyForcesAnimation(graph, dt);
+      }
       redraw(ctx, graph);
       requestAnimationFrame(animate);
     };

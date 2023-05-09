@@ -1,23 +1,31 @@
-import { useState } from 'react';
+import { useAppsParameters } from '@/hooks/useAppsParameters';
 import './AppParameters.scss';
 
 function CanvasParameters() {
-  const [parameter, setParameter] = useState(0);
+  const { parameters, toggleShorGrid, toggleMovableCharges } = useAppsParameters();
 
   return (
     <section id="electric-field-parameters">
       <div>
-        <h2>Visualización del campo eléctrico</h2>
+        <h1>Electric Field visualization</h1>
         <form>
-          <label htmlFor="canvas-width">
-            <span>Size</span>
+          <label htmlFor="show-grid">
             <input
-              type="range"
-              min="0"
-              max="100"
-              value={parameter}
-              onChange={(e) => setParameter(Number(e.target.value))}
+              type="checkbox"
+              id="show-grid"
+              checked={parameters.showGrid}
+              onChange={toggleShorGrid}
             />
+            Show grid
+          </label>
+          <label htmlFor="movable-point-charges">
+            <input
+              type="checkbox"
+              id="movable-point-charges"
+              checked={parameters.movablePointCharges}
+              onChange={toggleMovableCharges}
+            />
+            Movable
           </label>
         </form>
       </div>

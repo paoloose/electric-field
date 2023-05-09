@@ -7,11 +7,13 @@ function App() {
 
   const graph: ElectricFieldGraph = {
     isDragging: false,
-    lastMouseCoords: { mouse_x: 0, mouse_y: 0 },
+    lastMouseCoords: { screen_x: 0, screen_y: 0 },
     view: { x: 0, y: 0 },
     zoom: 1,
-    showGrid: true,
     pointCharges: [],
+    params: {
+      showGrid: false,
+    },
   }
 
   return (
