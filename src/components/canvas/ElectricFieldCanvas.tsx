@@ -31,8 +31,8 @@ function ElectricFieldCanvas({ graphState }: { graphState: ElectricFieldGraph })
 
       // We have that
       // x = width / zoom ; y = height / zoom
-      graph.view.x = - (width / graph.zoom) / 2;
-      graph.view.y = + (height / graph.zoom) / 2;
+      graph.view.x = -(width / graph.zoom) / 2;
+      graph.view.y = +(height / graph.zoom) / 2;
     });
 
     observer.observe(ctx.canvas);
@@ -61,7 +61,7 @@ function ElectricFieldCanvas({ graphState }: { graphState: ElectricFieldGraph })
   const lastRightClick = useRef(0);
   const handleRightClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     rightClickHandler(e, canvasRef.current, graph, lastRightClick);
-  }
+  };
 
   const handleDoubleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     doubleClickHandler(e, canvasRef.current, graph);
@@ -84,7 +84,7 @@ function ElectricFieldCanvas({ graphState }: { graphState: ElectricFieldGraph })
     return () => {
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
-    }
+    };
   }, []);
 
   // Animation frame
@@ -100,7 +100,7 @@ function ElectricFieldCanvas({ graphState }: { graphState: ElectricFieldGraph })
       requestAnimationFrame(animate);
     };
     requestAnimationFrame(animate);
-  }, []);
+  }, [graph]);
 
   return (
     <section id="electric-field-canvas">

@@ -6,7 +6,7 @@ function CanvasParameters() {
     parameters,
     toggleShowGrid,
     toggleMovableCharges,
-    toggleShowElectricField
+    toggleShowElectricField,
   } = useAppsParameters();
 
   return (

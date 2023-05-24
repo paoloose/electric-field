@@ -5,11 +5,12 @@ type ElectricFieldParamsContext = {
   setParameters: React.Dispatch<React.SetStateAction<ElectricFieldReactiveParams>>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const initialContext: ElectricFieldParamsContext = {
   parameters: {
     showGrid: false,
     movablePointCharges: true,
-    showElectricField: true,
+    showElectricField: false,
   },
   setParameters: () => {},
 };
@@ -17,7 +18,9 @@ export const initialContext: ElectricFieldParamsContext = {
 const AppParametersContext = createContext<ElectricFieldParamsContext>(initialContext);
 
 function CanvasContextProvider({ children }: { children: React.ReactNode }) {
-  const [parameters, setParameters] = useState<ElectricFieldReactiveParams>(initialContext.parameters);
+  const [parameters, setParameters] = useState<ElectricFieldReactiveParams>(
+    initialContext.parameters,
+  );
 
   return (
     <AppParametersContext.Provider value={

@@ -1,7 +1,11 @@
-import { getMouseCoords } from "../utils";
+import { getMouseCoords } from '../utils';
 
-export function pointerMoveHandler(e: PointerEvent, canvas: HTMLCanvasElement | null, graph: ElectricFieldGraph) {
-  const ctx = canvas?.getContext("2d");
+export function pointerMoveHandler(
+  e: PointerEvent,
+  canvas: HTMLCanvasElement | null,
+  graph: ElectricFieldGraph,
+) {
+  const ctx = canvas?.getContext('2d');
   if (!ctx) return;
 
   if (graph.isDragging) {

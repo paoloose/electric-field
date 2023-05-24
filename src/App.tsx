@@ -4,7 +4,6 @@ import { CanvasContextProvider, initialContext } from '@/context/AppParametersCo
 import '@/styles/App.scss';
 
 function App() {
-
   const graph: ElectricFieldGraph = {
     isDragging: false,
     lastMouseCoords: { screen_x: 0, screen_y: 0 },
@@ -12,7 +11,7 @@ function App() {
     zoom: 1e6,
     pointCharges: [],
     params: initialContext.parameters,
-  }
+  };
 
   return (
     <CanvasContextProvider>

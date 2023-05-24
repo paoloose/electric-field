@@ -1,14 +1,18 @@
-import { getMouseCoords } from "../utils";
+import { getMouseCoords } from '../utils';
 
 const ZOOM_ADJUSTMENT = 0.01;
 
-export const zoomHandler = (e: WheelEvent, ctx: CanvasRenderingContext2D, graph: ElectricFieldGraph) => {
+export const zoomHandler = (
+  e: WheelEvent,
+  ctx: CanvasRenderingContext2D,
+  graph: ElectricFieldGraph,
+) => {
   const zoomIn = e.deltaY < 0;
   const zoomOut = e.deltaY > 0;
 
   const zoomBefore = graph.zoom;
 
-  if (zoomIn)  graph.zoom += ZOOM_ADJUSTMENT;
+  if (zoomIn) graph.zoom += ZOOM_ADJUSTMENT;
   if (zoomOut) {
     if (graph.zoom < 0.5) {
       graph.zoom -= ZOOM_ADJUSTMENT * 0.1;
@@ -33,4 +37,4 @@ export const zoomHandler = (e: WheelEvent, ctx: CanvasRenderingContext2D, graph:
   graph.view.y += dy;
 
   if (e.ctrlKey) e.preventDefault();
-}
+};

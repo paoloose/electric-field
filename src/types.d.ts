@@ -5,7 +5,6 @@ interface Vector {
   x: number;
   y: number;
 
-  constructor(x: number, y: number);
   norm(): number;
   unit(): Vector;
   scaled(scalar: number): Vector;
@@ -42,4 +41,4 @@ interface ElectricFieldGraph {
   zoom: number;
   pointCharges: PointCharge[];
   params: ElectricFieldReactiveParams;
-};
+}
